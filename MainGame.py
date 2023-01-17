@@ -20,7 +20,7 @@ class MainGame:
         self.player1 = Player(self.get_user_name(1), "X")
         self.player2 = Player(self.get_user_name(2), "O")
 
-    def turn(self, player) -> None:
+    def turn(self, player: Player) -> None:
         self.board.show_board()
         while True:
             col = self.get_col_input(player)
