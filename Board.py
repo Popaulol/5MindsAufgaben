@@ -22,7 +22,7 @@ class Board:
     def is_valid_turn(self, col: int) -> bool:
         return self.board[0][col] == "_"
 
-    def add_coin_to_board(self, col, symbol) -> None:
+    def add_coin_to_board(self, col: int, symbol: str) -> None:
         for index, row in enumerate(self.board):
             if row[col] != "_":
                 self.board[index - 1][col] = symbol
