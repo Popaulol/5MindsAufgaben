@@ -5,7 +5,8 @@ class Board:
         self.size = size
         self.board = self.create_board(size)
 
-    def create_board(self, size) -> list[list[str]]:
+    @staticmethod
+    def create_board(size: int) -> list[list[str]]:
         return [["_" for _ in range(size)] for _ in range(size)]
 
     def show_board(self) -> None:
