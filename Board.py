@@ -19,7 +19,7 @@ class Board:
             print(str(i) + "|", end="")
         print()
 
-    def is_valid_turn(self, col) -> bool:
+    def is_valid_turn(self, col: int) -> bool:
         return self.board[0][col] == "_"
 
     def add_coin_to_board(self, col, symbol) -> None:
