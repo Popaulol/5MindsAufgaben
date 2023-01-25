@@ -1,0 +1,72 @@
+.table {
+    border-collapse: collapse;
+    width: 100%;
+}
+
+.table th+th,
+.table td+td {
+    border-left: 1px solid red;
+}
+
+.table th {
+    position: relative;
+}
+
+.draggable {
+    cursor: move;
+    user-select: none;
+}
+
+.placeholder {
+    border: 2px dashed red;
+}
+
+.clone-list {
+    display: flex;
+}
+
+.clone-table {
+    border-collapse: collapse;
+}
+
+.clone-table th,
+.clone-table td {
+    border-left: 1px solid red;
+}
+
+
+.dragging {
+    z-index: 999;
+}
+
+
+.invisible {
+    opacity: 0.0;
+}
+
+td,
+th {
+    padding: 10px;
+}
+
+.resizer {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 5px;
+    cursor: col-resize;
+    user-select: none;
+    z-index: 200;
+}
+
+.resizer:hover,
+.resizing {
+    border-right: 2px solid blue;
+    opacity: 1.0 !important;
+}
+
+p,
+h5,
+li {
+    color: lightgray;
+}

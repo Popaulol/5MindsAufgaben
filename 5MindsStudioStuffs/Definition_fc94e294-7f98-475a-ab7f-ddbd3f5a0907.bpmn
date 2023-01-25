@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<bpmn:definitions xmlns:bpmn="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:dc="http://www.omg.org/spec/DD/20100524/DC" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:camunda="http://camunda.org/schema/1.0/bpmn" xmlns:di="http://www.omg.org/spec/DD/20100524/DI" id="Definition_fc94e294-7f98-475a-ab7f-ddbd3f5a0907" targetNamespace="http://bpmn.io/schema/bpmn" exporter="5Minds Studio" exporterVersion="1">
+  <bpmn:collaboration id="Collaboration_1cidyxu" name="">
+    <bpmn:participant id="Participant_0px403d" name="Untitled Process" processRef="Process_343a998f-0592-4435-923b-2b348c236a13" />
+  </bpmn:collaboration>
+  <bpmn:process id="Process_343a998f-0592-4435-923b-2b348c236a13" name="Untitled Process" isExecutable="true">
+    <bpmn:laneSet>
+      <bpmn:lane id="Lane_1xzf0d3" name="Lane">
+        <bpmn:flowNodeRef>StartEvent</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Activity_0rpqcw8</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>FooBarScriptTask</bpmn:flowNodeRef>
+        <bpmn:flowNodeRef>Event_14qzg4v</bpmn:flowNodeRef>
+      </bpmn:lane>
+    </bpmn:laneSet>
+    <bpmn:startEvent id="StartEvent" name="Start Event">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="engine.runPostScript" value="" />
+          <camunda:property name="baz" value="foo" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:outgoing>Flow_0dq3eeb</bpmn:outgoing>
+    </bpmn:startEvent>
+    <bpmn:sequenceFlow id="Flow_0f90ddw" sourceRef="Activity_0rpqcw8" targetRef="Event_14qzg4v" />
+    <bpmn:sequenceFlow id="Flow_0dq3eeb" sourceRef="StartEvent" targetRef="FooBarScriptTask" />
+    <bpmn:sequenceFlow id="Flow_0kjfluy" sourceRef="FooBarScriptTask" targetRef="Activity_0rpqcw8" />
+    <bpmn:userTask id="Activity_0rpqcw8" name="Token lesen und User-Eingabe">
+      <bpmn:extensionElements>
+        <camunda:formData>
+          <camunda:formField id="user_name" label="Benutzername" type="string" defaultValue="${token.current.foo}" customForm="{&#34;placeholder&#34;:&#34;Benutzernamen eingeben...&#34;,&#34;hint&#34;:&#34;${token.current.foo}&#34;}" />
+          <camunda:formField id="admin_check" label="Admin Rechte erhalten?" type="boolean" />
+        </camunda:formData>
+        <camunda:properties>
+          <camunda:property name="engine.runPostScript" value="" />
+          <camunda:property name="engine.runPreScript" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0kjfluy</bpmn:incoming>
+      <bpmn:outgoing>Flow_0f90ddw</bpmn:outgoing>
+    </bpmn:userTask>
+    <bpmn:scriptTask id="FooBarScriptTask" name="Token befüllen">
+      <bpmn:extensionElements>
+        <camunda:properties>
+          <camunda:property name="engine.runPostScript" value="" />
+        </camunda:properties>
+      </bpmn:extensionElements>
+      <bpmn:incoming>Flow_0dq3eeb</bpmn:incoming>
+      <bpmn:outgoing>Flow_0kjfluy</bpmn:outgoing>
+      <bpmn:script>return {
+    foo: "bar"
+}</bpmn:script>
+    </bpmn:scriptTask>
+    <bpmn:endEvent id="Event_14qzg4v" name="End Event">
+      <bpmn:incoming>Flow_0f90ddw</bpmn:incoming>
+    </bpmn:endEvent>
+  </bpmn:process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_1">
+    <bpmndi:BPMNPlane id="BPMNPlane_1" bpmnElement="Collaboration_1cidyxu">
+      <bpmndi:BPMNShape id="Participant_0px403d_di" bpmnElement="Participant_0px403d" isHorizontal="true">
+        <dc:Bounds x="5" y="70" width="525" height="190" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Lane_1xzf0d3_di" bpmnElement="Lane_1xzf0d3" isHorizontal="true">
+        <dc:Bounds x="35" y="70" width="495" height="190" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="Flow_0kjfluy_di" bpmnElement="Flow_0kjfluy">
+        <di:waypoint x="270" y="170" />
+        <di:waypoint x="320" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0dq3eeb_di" bpmnElement="Flow_0dq3eeb">
+        <di:waypoint x="128" y="170" />
+        <di:waypoint x="170" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="Flow_0f90ddw_di" bpmnElement="Flow_0f90ddw">
+        <di:waypoint x="420" y="170" />
+        <di:waypoint x="462" y="170" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape id="StartEvent_1_di" bpmnElement="StartEvent">
+        <dc:Bounds x="92" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="83" y="195" width="55" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_0wrhjy3_di" bpmnElement="Activity_0rpqcw8">
+        <dc:Bounds x="320" y="130" width="100" height="80" />
+        <bpmndi:BPMNLabel />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Activity_1ye7ifm_di" bpmnElement="FooBarScriptTask">
+        <dc:Bounds x="170" y="130" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="Event_14qzg4v_di" bpmnElement="Event_14qzg4v">
+        <dc:Bounds x="462" y="152" width="36" height="36" />
+        <bpmndi:BPMNLabel>
+          <dc:Bounds x="455" y="195" width="51" height="14" />
+        </bpmndi:BPMNLabel>
+      </bpmndi:BPMNShape>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</bpmn:definitions>

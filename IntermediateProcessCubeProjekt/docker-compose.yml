@@ -1,0 +1,58 @@
+version: "3.5"
+services:
+  engine:
+    image: 5minds/engine:13.4.6
+    ports:
+      - 8000:8000
+    volumes:
+      - ./.processcube/engine/config/config.json:/etc/engine/config/config.json:ro
+      - ./.processcube/engine/db:/root/.config/AtlasEngineFullstackServer/databases:rw
+      - ./processes:/processes:ro
+    command: --seed-dir=/processes --port 8000
+    environment:
+      CONFIG_PATH: /etc/engine/config/config.json
+
+  portal:
+    image: 5minds/portal:3.9.0-beta.1
+    volumes:
+      - ./.processcube/portal/theme.css:/etc/portal/config/theme.css:ro
+      - ./.processcube/portal/config.json:/etc/portal/config/config.json:ro
+      - ./.processcube/portal/assets:/etc/portal/config/assets:ro
+      - ./.processcube/portal/translation:/etc/portal/config/translation:ro
+    command: "--config-path /etc/portal/config/config.json --theme /etc/portal/config/theme.css --assets /etc/portal/config/assets"
+    ports:
+      - 8082:8082
+
+  app:
+    image: 5minds/processcube_project
+    build:
+      context: ./
+      dockerfile: apps/IntermediateProcessCubeProjekt/Dockerfile
+    volumes:
+      - ./apps/IntermediateProcessCubeProjekt/frontend/src/config/config.json:/apps/IntermediateProcessCubeProjekt/wwwroot/config.json
+      - ./apps/IntermediateProcessCubeProjekt/Properties/:/apps/IntermediateProcessCubeProjekt/Properties/
+      - ./apps/IntermediateProcessCubeProjekt/appsettings.${APPENVIRONMENT:-Development}.json:/apps/IntermediateProcessCubeProjekt/appsettings.json
+      - ./apps/IntermediateProcessCubeProjekt/Program.cs:/apps/IntermediateProcessCubeProjekt/Program.cs
+      - ./apps/IntermediateProcessCubeProjekt/Worker/:/apps/IntermediateProcessCubeProjekt/Worker/
+    ports:
+      - 5111:5111
+    working_dir: /apps/IntermediateProcessCubeProjekt
+    environment:
+      - APPSETTINGS=${APPSETTINGS}
+    command: dotnet run
+
+  frontend:
+    image: 5minds/processcube_project
+    volumes:
+      - ./apps/IntermediateProcessCubeProjekt/frontend/public/:/apps/IntermediateProcessCubeProjekt/frontend/public/
+      - ./apps/IntermediateProcessCubeProjekt/frontend/src/:/apps/IntermediateProcessCubeProjekt/frontend/src/
+      - ./apps/IntermediateProcessCubeProjekt/frontend/.env:/apps/IntermediateProcessCubeProjekt/frontend/.env
+      - ./apps/IntermediateProcessCubeProjekt/frontend/.env.development:/apps/IntermediateProcessCubeProjekt/frontend/.env.development
+      - ./apps/IntermediateProcessCubeProjekt/frontend/aspnetcore-https.js:/apps/IntermediateProcessCubeProjekt/frontend/aspnetcore-https.js
+      - ./apps/IntermediateProcessCubeProjekt/frontend/aspnetcore-react.js:/apps/IntermediateProcessCubeProjekt/frontend/aspnetcore-react.js
+      - ./apps/IntermediateProcessCubeProjekt/frontend/tsconfig.json:/apps/IntermediateProcessCubeProjekt/frontend/tsconfig.json
+    working_dir: /apps/IntermediateProcessCubeProjekt/frontend/
+    command: npm start
+    ports:
+      - 3000:3000
+      - 9229:9229
